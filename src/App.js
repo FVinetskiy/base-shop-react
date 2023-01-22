@@ -1,38 +1,38 @@
-import './App.sass';
-import Card from './components/Card';
-import FilterHead from './components/FilterHead';
-import MainFiltred from './components/MainFiltred';
-import Paginations from './components/Paginations';
-import Products from './components/Products';
 // import arrProduct from './assets/store.json';
+// RAFC
+// IMR
 
+import './App.sass';
+import { Routes, Route } from 'react-router-dom';
 import React from 'react';
 
+import Home from './pages/home';
+import NotFound from './pages/NotFound';
+import Card from './components/Card';
+import FilterHead from './components/FilterHead';
+import Basket from './components/Basket';
+
+export const SearchContext = React.createContext('');
+
 function App() {
-  const [items, setItems] = React.useState([]);
-  const [isloading, setIsloading] = React.useState(true);
-  console.log(isloading, '1');
-  React.useEffect(() => {
-    fetch('https://63ba79d34482143a3f28546c.mockapi.io/items')
-      .then((res) => {
-        return res.json();
-      })
-      .then((arr) => {
-        setItems(arr);
-        setIsloading(false);
-      });
-  }, []);
+  const [searchValue, setSearchValue] = React.useState('');
 
   return (
     <div className="app">
-      <header>
-        <div>shop</div>
-        <FilterHead />
-        <Card />
-      </header>
-      <MainFiltred />
-      <Products isloading={isloading} arrProduct={items} />
-      <Paginations />
+      <SearchContext.Provider value={{ searchValue, setSearchValue }}>
+        <header>
+          <FilterHead />
+          <Card />
+        </header>
+        <Routes>
+          <Route
+            path="/"
+            element={<Home />}
+          />
+          <Route path="*" element={<NotFound />} />
+          <Route path="/Card" element={<Basket />} />
+        </Routes>
+      </SearchContext.Provider>
     </div>
   );
 }

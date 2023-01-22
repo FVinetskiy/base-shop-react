@@ -16,9 +16,11 @@ const Product = (props) => {
 
     return (
         <div className='product'>
-            <img className='product__img' src={props.imageurl} alt="" />
+            {props.imageurl ?
+                <img className='product__img' src={props.imageurl} alt="" /> :
+                <div className='product__img'>нет картинки</div>}
             <div className='product__content'>
-                <p>{props.text}</p>
+                <p>{props.title}</p>
                 <p>от {props.price} ₽</p>
                 <div>
                     <ul className='product__filter'>

@@ -1,24 +1,15 @@
 import Product from "./product";
 import Skeleton from "./Skeleton";
 
-const Products = (props) => {
-  console.log(props , '2')
+const Products = ({isloading , arrProduct }) => {
+  const products = arrProduct.map(item => <Product key={item.id} {...item} />)
+  const skeletons =  [...new Array(4)].map((_, index) => <Skeleton key={index} />)
+
   return (
     <div className="products">
-        <h1>Все пиццы</h1>
-        <h2>Products massive</h2>
+        <h1>Все товары</h1>
       <div className="products__list">
-        {
-          props.isloading ? [...new Array(6)].map((_, index) => <Skeleton key={index} />) : props.arrProduct.map(item => <Product
-            sizes={item.sizes} 
-            imageurl={item.imageurl} 
-            key={item.id} 
-            text={item.name} 
-            price={item.price}
-            types={item.types}
-            category={item.category}
-            rating={item.rating} />)
-        }
+        { isloading ? skeletons : products }
         </div>
     </div>
   );

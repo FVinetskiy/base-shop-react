@@ -1,8 +1,10 @@
+import Search from "./Serch/Search";
+
 const FilterHead = () => {
   return (
     <div >
-    <p>FilterHead</p>
-    <input type="text" />
+      <p>logo</p>
+      <Search  />
     </div>
   );
 }
