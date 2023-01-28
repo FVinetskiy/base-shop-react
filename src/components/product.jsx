@@ -1,19 +1,29 @@
 import React, { useState } from 'react';
 
+import { useSelector , useDispatch } from 'react-redux'
+import { addItem } from '../redux/slices/cartSlice'
+
+
 const Product = (props) => {
-    const [count, setCount] = useState(0);
+    const dispatch = useDispatch()
+    const cartItem = useSelector((state) => state.cartSlice.items.find((obj) => obj.id === props.id))
     const [activeType, setactiveType] = useState(0);
     const [activeSyze, setactiveSyze] = useState(0);
-    const typeName = [ 'лучший' , 'высший'];
+    const typeName = ['лучший', 'высший'];
 
-    const addCount =()=> {
-        setCount(count + 1)
+    const AddCount = cartItem ? cartItem.count : 0
+    
+    const onClickAdd = () => {
+        const item = {
+            id: props.id,
+            title: props.title,
+            price: props.price,
+            imageurl: props.imageurl,
+            type: typeName[activeType],
+            sizes: props.sizes[activeSyze]
+        };
+        dispatch(addItem(item))
     }
-
-    const deletCount =()=> {
-        setCount(count - 1)
-    }
-
     return (
         <div className='product'>
             {props.imageurl ?
@@ -46,9 +56,7 @@ const Product = (props) => {
                 </div>
 
                 <div className='buttons-count'>
-                    <button onClick={addCount}>добавить</button>
-                    <button disabled={count === 0} onClick={deletCount}>удалить</button>
-                    <p>product count {count}</p>
+                    <button onClick={onClickAdd}>добавить { AddCount > 0 && AddCount }</button>
                 </div>
                 <p>category {props.category}</p>
             </div>

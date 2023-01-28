@@ -1,5 +1,5 @@
 // import arrProduct from './assets/store.json';
-// RAFC
+// rafc
 // IMR
 
 import './App.sass';
@@ -8,9 +8,9 @@ import React from 'react';
 
 import Home from './pages/home';
 import NotFound from './pages/NotFound';
-import Card from './components/Card';
-import FilterHead from './components/FilterHead';
-import Basket from './components/Basket';
+import Card from './components/Card/Card';
+import FilterHead from './components/FilterHead/FilterHead';
+import Basket from './components/Basket/Basket';
 
 export const SearchContext = React.createContext('');
 
@@ -25,10 +25,7 @@ function App() {
           <Card />
         </header>
         <Routes>
-          <Route
-            path="/"
-            element={<Home />}
-          />
+          <Route path="/" element={<Home />} />
           <Route path="*" element={<NotFound />} />
           <Route path="/Card" element={<Basket />} />
         </Routes>

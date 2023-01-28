@@ -8,8 +8,8 @@ const Products = ({isloading , arrProduct }) => {
   return (
     <div className="products">
         <h1>Все товары</h1>
-      <div className="products__list">
-        { isloading ? skeletons : products }
+        <div className="products__list">
+          { isloading ? skeletons : products }
         </div>
     </div>
   );

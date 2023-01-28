@@ -3,8 +3,6 @@ import { SearchContext } from '../../App'
 import React from 'react'
 import { debounce } from 'lodash';
 
-
-
 const Search = () => {
   const [value , setValue] = React.useState('')
   const { setSearchValue } = React.useContext(SearchContext)
