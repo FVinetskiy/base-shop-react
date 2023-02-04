@@ -3,16 +3,31 @@ import { clearItem } from '../../redux/slices/cartSlice'
 import { Link } from "react-router-dom";
 import EmptyBasket  from '../emptyBasket/emptyBasket'
 import CardItems from '../CardItems/CardItems';
+import { selectCart } from '../../redux/slices/cartSlice'
+import React from 'react'
 import './Basket.sass'
 
-const Basket = () => {
+const Basket: React.FC = () => {
   const dispatch = useDispatch()
-  const  items  = useSelector((state) => state.cartSlice.items)
-  const { totalPrice } = useSelector((state) => state.cartSlice)
-  const itemsmap = items.map(item => <CardItems key={item.id} {...item} />)
-  const totalCount = items.reduce((sum, item) => sum + item.count , 0)
+  const { totalPrice , items} = useSelector(selectCart)
+  const totalCount = items.reduce((sum: number, item: any) => sum + item.count, 0)
+  const itemsmap = items.map((items:any) => <CardItems key={items.id} {...items} />)
+  const isMounted = React.useRef(false)
+
+  React.useEffect(() => {
+    if (isMounted.current) {
+      const json = JSON.stringify(items)
+      localStorage.setItem('cart', json)
+      isMounted.current = true
+    }
+  },[items])
+
   const clearAll = () => {
       dispatch(clearItem())
+  }
+
+  const payment = () => {
+    alert( ` оплата прошла успешно , сумма заказа  ${totalPrice} $ ` )
   }
 
   if (!totalPrice) {
@@ -27,9 +42,7 @@ const Basket = () => {
         <h1 className="basket__title">корзина</h1>
         <button onClick={clearAll} className="basket__clear">очистить корзину</button>
       </div>
-
       {itemsmap}
-      
       <div className="basket__footer">
         <div className="basket__footer-content">
           <p>всего заказов  {  totalCount  }</p>
@@ -37,7 +50,7 @@ const Basket = () => {
         </div>
         <div className="basket__footer-content">
           <Link className="basket__link-back" to='/'>назад</Link>
-          <button className="basket__payment">оплатить сейчас</button>
+          <button onClick={payment} className="basket__payment">оплатить сейчас</button>
         </div>
       </div>
     </div>

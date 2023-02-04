@@ -1,27 +1,32 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux'
-import { setSort } from '../redux/slices/filterSlice'
+import { setSort, selectFilterSort, SortPropertyEnum } from '../../redux/slices/filterSlice'
 
-const Sort = () => {
+type SortListItem = {
+  name: string,
+  sortProperty: SortPropertyEnum
+}
+
+const list: SortListItem[] = [
+    {name: 'популярность' , sortProperty : SortPropertyEnum.RATING},
+    {name: 'цене' , sortProperty : SortPropertyEnum.PRICE},
+    {name: 'алфавиту', sortProperty: SortPropertyEnum.TITLE },
+];
+
+const SortPopup = () => {
   const dispatch = useDispatch()
-  const sort = useSelector(state => state.filterSlice.sort)
-  const sortRef = React.useRef()
-
+  const sort = useSelector(selectFilterSort)
+  const sortRef = React.useRef(null)
   const [open, setOpen] = React.useState(false);
-  const list = [
-      {name: 'популярность' , sortProperty : 'rating'},
-      {name: 'цене' , sortProperty : 'price'},
-      {name: 'алфавиту' , sortProperty : 'title'}
-    ];
-    // rating , price , title
+  // rating , price , title
 
-  const onSetItem = (id) => {
-    dispatch(setSort(id))
+  const onSetItem = (obj: SortListItem) => {
+    dispatch(setSort(obj))
     setOpen(false);
   };
 
   React.useEffect(() => {
-    const handleClickOutside = (event) => {
+    const handleClickOutside = (event: any) => {
       let path = event.composedPath().includes(sortRef.current);
       if (!path) {
         setOpen(false);
@@ -57,4 +62,4 @@ const Sort = () => {
   );
 };
 
-export default Sort;
+export default SortPopup;

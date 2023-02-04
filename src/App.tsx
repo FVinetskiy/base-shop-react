@@ -1,35 +1,28 @@
 // import arrProduct from './assets/store.json';
 // rafc
 // IMR
-
 import './App.sass';
 import { Routes, Route } from 'react-router-dom';
-import React from 'react';
-
 import Home from './pages/home';
 import NotFound from './pages/NotFound';
 import Card from './components/Card/Card';
 import FilterHead from './components/FilterHead/FilterHead';
 import Basket from './components/Basket/Basket';
-
-export const SearchContext = React.createContext('');
+import FullProduct from './components/FullProduct/FullProduct';
 
 function App() {
-  const [searchValue, setSearchValue] = React.useState('');
-
   return (
     <div className="app">
-      <SearchContext.Provider value={{ searchValue, setSearchValue }}>
-        <header>
+      <header>
           <FilterHead />
           <Card />
-        </header>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="*" element={<NotFound />} />
-          <Route path="/Card" element={<Basket />} />
-        </Routes>
-      </SearchContext.Provider>
+      </header>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="*" element={<NotFound />} />
+        <Route path="/Card" element={<Basket />} />
+        <Route path="/product/:id" element={<FullProduct />} />
+      </Routes>
     </div>
   );
 }
